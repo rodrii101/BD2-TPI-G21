@@ -1,0 +1,53 @@
+CREATE DATABASE BD2_TPI_G21
+GO
+USE DB2_TPI_21
+GO
+
+CREATE TABLE Direccion(
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    Calle VARCHAR(33) NOT NULL,
+    Altura INT NOT NULL,
+    Piso VARCHAR(8) NULL,
+    Departamento VARCHAR(10) NULL,
+    CodigoPostal VARCHAR(8),
+    Localidad VARCHAR(60) NOT NULL,
+    Observacion VARCHAR(200) NULL,
+)
+
+CREATE TABLE Cliente (
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    NroCliente BIGINT NOT NULL,
+    Dni VARCHAR(10) NOT NULL,
+    Nombre VARCHAR(50) NOT NULL NULL,
+    Apellido VARCHAR(50) NOT NULL NULL,
+    Telefono VARCHAR(12) NOT NULL,
+    IdDireccion INT NOT NULL,
+    FOREIGN KEY(IdDireccion) REFERENCES Direccion(Id)
+)
+
+CREATE TABLE Usuario (
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    Descripcion VARCHAR(50) NOT NULL,
+    Usuario VARCHAR(200) NOT NULL,
+    Contraseña VARCHAR(80),
+    IdCliente INT NOT NULL,
+    FOREIGN KEY(IdCliente) REFERENCES Cliente(Id)
+)
+
+CREATE TABLE Marca(
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    Descripcion VARCHAR(50) NOT NULL,
+    Origen VARCHAR(50) NULL,
+    UrlImagen VARCHAR(2000) NOT NULL,
+)
+
+CREATE TABLE MedioDePago(
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    Descripcion VARCHAR(50) NOT NULL,
+    Promocion VARCHAR(100) NULL
+)
+
+CREATE TABLE Categoria (
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL, 
+    Descripcion VARCHAR(80) NOT NULL,
+)
