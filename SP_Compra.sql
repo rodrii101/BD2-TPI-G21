@@ -1,28 +1,31 @@
 CREATE PROCEDURE RegistrarCompra
-@idMedioPago INT,
-@idProveedor INT,
-@total MONEY,
-@idMercaderia INT,
-@cantidad INT
+    @idMedioPago INT,
+    @idProveedor INT,
+    @total MONEY,
+    @idMercaderia INT,
+    @cantidad INT
 AS
 BEGIN
-	BEGIN TRY
+    SET NOCOUNT ON;
 
-		INSERT INTO Compra (IdMedioPago, IdProveedor, Total)
-		VALUES (@idMedioPago, @idProveedor, @total)
+    BEGIN TRY
+        BEGIN TRANSACTION;
 
-		DECLARE @idCompra INT
-		
-		SELECT @idCompra = MAX(Id) 
-		FROM Compra 
-		WHERE IdProveedor = @idProveedor
+        INSERT INTO Compra (IdMedioPago, IdProveedor, Total)
+        VALUES (@idMedioPago, @idProveedor, @total);
 
-		INSERT INTO DetalleCompra (IdCompra, IdMercaderia, Cantidad)
-		VALUES (@idCompra, @idMercaderia, @cantidad)
+        DECLARE @idCompra INT = SCOPE_IDENTITY();
 
-	END TRY
-	BEGIN CATCH
-		PRINT ERROR_MESSAGE()
-	END CATCH
+        INSERT INTO DetalleCompra (IdCompra, IdMercaderia, Cantidad)
+        VALUES (@idCompra, @idMercaderia, @cantidad);
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        PRINT ERROR_MESSAGE();
+    END CATCH
 END;
 GO
