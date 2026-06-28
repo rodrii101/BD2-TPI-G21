@@ -9,7 +9,7 @@ BEGIN
 SELECT M.CodMercaderia, M.Descripcion, M.Stock, (SELECT MAX(COM.Fecha)) AS 'Ultima Compra' FROM Mercaderia M 
 INNER JOIN DetalleCompra DC ON DC.IdMercaderia = M.Id
 INNER JOIN Compra COM ON DC.IdCompra = COM.Id
-WHERE M.Id = 1
+WHERE M.Id = @idArticulo
 GROUP BY M.CodMercaderia, M.Descripcion, M.Stock
 
 
