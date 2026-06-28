@@ -48,11 +48,10 @@ CREATE TABLE MedioDePago(
     Promocion VARCHAR(100) NULL
 )
 
-CREATE TABLE Categoria (
+CREATE TABLE Categorias (
     Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL, 
     Descripcion VARCHAR(80) NOT NULL,
 )
-
 
 CREATE TABLE Proveedor(
 Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -118,3 +117,53 @@ IdCarrito INT FOREIGN KEY REFERENCES Carrito(Id) NOT NULL,
 IdMercaderia INT FOREIGN KEY REFERENCES Mercaderia(Id) NOT NULL,
 Cantidad INT NOT NULL,
 )
+
+CREATE TABLE Inventario(
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    IdMercaderia INT NOT NULL,
+    Fecha DATE NOT NULL DEFAULT GETDATE(),
+    Stock INT NOT NULL,
+    FOREIGN KEY(IdMercaderia) REFERENCES Mercaderia(Id)
+)
+
+CREATE TABLE Venta(
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    IdCarrito INT NOT NULL,
+    IdMedioPago INT NOT NULL,
+    Fecha DATE NOT NULL DEFAULT GETDATE(),
+    Total MONEY NOT NULL,
+    FOREIGN KEY(IdCarrito) REFERENCES Carrito(Id),
+    FOREIGN KEY(IdMedioPago) REFERENCES MedioPago(Id)
+)
+
+CREATE TABLE DetalleVenta(
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    IdVenta INT NOT NULL,
+    IdMercaderia INT NOT NULL,
+    Fecha DATE NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY(IdVenta) REFERENCES Venta(Id),
+    FOREIGN KEY(IdMercaderia) REFERENCES Mercaderia(Id)
+)
+
+CREATE TABLE RemitoResumen(
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    SucRem VARCHAR(50) NOT NULL,
+    NroRemito VARCHAR(50) NOT NULL,
+    IdTransporte INT NOT NULL,
+    Fecha DATE NOT NULL DEFAULT GETDATE(),
+    IdVenta INT NOT NULL,
+    IdSeguimiento INT NOT NULL,
+    FOREIGN KEY(IdTransporte) REFERENCES Transporte(Id),
+    FOREIGN KEY(IdVenta) REFERENCES Venta(Id),
+    FOREIGN KEY(IdSeguimiento) REFERENCES Seguimiento(Id)
+)
+
+CREATE TABLE RemitoDetalle(
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+    IdRemito INT NOT NULL,
+    IdMercaderia INT NOT NULL,
+    Cantidad INT NOT NULL,
+    FOREIGN KEY(IdRemito) REFERENCES RemitoResumen(Id),
+    FOREIGN KEY(IdMercaderia) REFERENCES Mercaderia(Id)
+)
+GO
