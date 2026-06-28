@@ -1,0 +1,26 @@
+-- ALTER VIEW vista_topCompras
+--     AS
+--     SELECT TOP 25 
+--     C.Id,
+--     C.IdProveedor,
+--     SUM(DC.Cantidad) AS CantidadTotal,
+--     C.Total,
+--     C.Fecha
+--     FROM Compra C 
+--     INNER JOIN DetalleCompra DC ON DC.IdCompra = C.Id
+--     GROUP BY C.Id, C.IdProveedor, C.Fecha, C.Total
+--     ORDER BY C.Total DESC, SUM(DC.Cantidad) DESC, C.Fecha DESC
+
+-- CREATE VIEW vista_topCompras
+--     AS
+--     SELECT TOP 50
+--     V.Id AS 'Id Venta',
+--     V.IdMedioDePago AS 'Medio de pago',
+--     SUM(DV.Cantidad) AS 'Cantidad total vendido',
+--     V.Fecha,
+--     V.Total
+--     FROM Venta V
+--     INNER JOIN DetalleVenta DV ON DV.IdVenta = V.Id
+--     GROUP BY V.Id, V.Fecha, V.IdMedioDePago, V.Total
+--     ORDER BY V.Total DESC, SUM(DV.Cantidad) DESC, V.Fecha DESC
+
