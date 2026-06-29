@@ -9,7 +9,7 @@ CREATE VIEW vista_topCompras
     FROM Compra C 
     INNER JOIN DetalleCompra DC ON DC.IdCompra = C.Id
     GROUP BY C.Id, C.IdProveedor, C.Fecha, C.Total
-    ORDER BY C.Total DESC, SUM(DC.Cantidad) DESC, C.Fecha DESC
+    ORDER BY C.Total DESC, CantidadTotalComprado DESC, C.Fecha DESC
 GO
 CREATE VIEW vista_topVentas
     AS
@@ -22,7 +22,7 @@ CREATE VIEW vista_topVentas
     FROM Venta V
     INNER JOIN DetalleVenta DV ON DV.IdVenta = V.Id
     GROUP BY V.Id, V.Fecha, V.IdMedioPago, V.Total
-    ORDER BY V.Total DESC, SUM(DV.Cantidad) DESC, V.Fecha DESC
+    ORDER BY V.Total DESC, CantidadTotalVendido DESC, V.Fecha DESC
 GO
 
 CREATE VIEW vista_stockBajoMercaderia
@@ -34,4 +34,18 @@ CREATE VIEW vista_stockBajoMercaderia
     FROM Mercaderia
     ORDER BY Stock ASC
 GO
-    
+CREATE VIEW vista_productosMasVendidos
+    AS
+    SELECT TOP 20
+    M.Id AS IdMercaderia,
+    M.Descripcion AS ProductoNombre,
+    MC.Descripcion AS Marca,
+    CT.Descripcion AS Categoria,
+    SUM(DV.Cantidad) AS CantidadTotalVendida 
+    FROM DetalleVenta DV
+    INNER JOIN Mercaderia M ON M.Id = DV.IdMercaderia
+    INNER JOIN Marca MC ON MC.Id = M.IdMarca
+    INNER JOIN Categorias CT ON CT.Id = M.IdCategorias
+    GROUP BY M.Id, M.Descripcion, MC.Descripcion, CT.Descripcion
+    ORDER BY CantidadTotalVendida DESC
+GO
