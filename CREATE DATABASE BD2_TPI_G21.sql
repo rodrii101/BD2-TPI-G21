@@ -23,6 +23,7 @@ CREATE TABLE Cliente (
     Apellido VARCHAR(50) NOT NULL, -- HABIA UN NULL DE MAS
     Telefono VARCHAR(12) NOT NULL,
     IdDireccion INT NOT NULL,
+    Baja BIT NOT NULL DEFAULT 0,
     FOREIGN KEY(IdDireccion) REFERENCES Direccion(Id)
 )
 
