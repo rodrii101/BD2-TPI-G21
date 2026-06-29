@@ -135,6 +135,7 @@ CREATE TABLE DetalleVenta(
     IdVenta INT NOT NULL,
     IdMercaderia INT NOT NULL,
     Cantidad INT NOT NULL,
+    PrecioUnitario FLOAT NOT NULL,
     Fecha DATE NOT NULL DEFAULT GETDATE(),
     FOREIGN KEY(IdVenta) REFERENCES Venta(Id),
     FOREIGN KEY(IdMercaderia) REFERENCES Mercaderia(Id)
