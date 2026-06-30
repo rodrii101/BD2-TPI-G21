@@ -45,3 +45,17 @@ BEGIN
     END
 END;
 GO
+    
+CREATE TRIGGER TR_CLIENTES_BAJA
+ON Cliente
+INSTEAD OF DELETE
+AS
+BEGIN
+    UPDATE Cliente
+    SET Baja = 1
+    WHERE Cliente.Id = (SELECT id FROM deleted)M
+
+END;
+GO 
+
+
