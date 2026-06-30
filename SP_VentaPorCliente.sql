@@ -8,7 +8,7 @@ BEGIN
 	SELECT cli.Nombre,V.Fecha,mer.Descripcion,VD.Cantidad  FROM Cliente cli
 	INNER JOIN Carrito CAR ON CAR.IdCliente = CLI.Id
 	INNER JOIN Venta V ON V.IDCarrito = CAR.Id
-	INNER JOIN VentaDetalle VD ON VD.IdVenta = V.ID
+	INNER JOIN DetalleVenta VD ON VD.IdVenta = V.ID
 	INNER JOIN Mercaderia mer ON mer.Id = VD.IdMercaderia
 	WHERE cli.Id = @idCliente
 
